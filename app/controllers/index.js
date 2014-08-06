@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 export default Ember.ArrayController.extend({
 	actions: {
 		createTodo: function() {
+
 			var title = this.get('newTitle');
 
 			if(!title) { return false; }
@@ -18,5 +18,26 @@ export default Ember.ArrayController.extend({
 
 			todo.save();
 		}
-	}
+	},
+
+	isCompleted: function(key, value) {
+		var model = this.get('model');
+
+		if (value === undefined) {
+			return model.get('isCompleted');
+		} else {
+			model.set('isCompleted', value);
+			model.save();
+			return value;
+		}
+	}.property('model.isCompleted'),
+
+	remaining: function() {
+		return this.filterBy('isCompleted', false).get('length');
+	}.property('@each.isCompleted'),
+
+	inflection: function() {
+		var remaining = this.get('remaining');
+		return (remaining === 1) ? 'todo' : 'todos';
+	}.property('remaining')
 });
