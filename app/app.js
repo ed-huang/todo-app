@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 
+
 Ember.MODEL_FACTORY_INJECTIONS = false;
 
 var App = Ember.Application.extend({
@@ -10,5 +11,8 @@ var App = Ember.Application.extend({
 });
 
 loadInitializers(App, 'todo-app');
+
+import EditTodoView from './views/edit-todo-view';
+Ember.Handlebars.helper('edit-todo', EditTodoView);
 
 export default App;
